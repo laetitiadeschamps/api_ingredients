@@ -18,8 +18,8 @@ before_script:
     - composer install
     - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem 
     - symfony server:ca:install && symfony serve -d
-    - php bin/console doctrine:database:create --env=test
-    - php bin/console doctrine:migration:migrate --env=test --no-interaction
+    - php bin/console doctrine:database:create
+    - php bin/console doctrine:migration:migrate --no-interaction
 
 cache:
     paths:
