@@ -1,4 +1,11 @@
 image: php:7.4-cli
+services:
+  - mysql:5.7
+
+variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+  MYSQL_ROOT_PASSWORD: root
+  DATABASE_URL: "mysql://root:root@mysql:3306/symfony"
 
 before_script:
     - apt-get update && apt-get install -y git libzip-dev npm wget
