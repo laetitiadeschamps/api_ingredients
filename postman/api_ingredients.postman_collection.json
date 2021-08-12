@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "172df2ff-f8b3-4130-9ee1-a9617c8d6ad9",
+		"name": "api_ingredients",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "should create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('username', pm.response.json().username);\r",
+							"pm.test(\"Status test\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\":\"{{$randomEmail}}\",\r\n\t\"password\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should not create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('username', pm.response.json().username);\r",
+							"pm.test(\"Status test\", function() {\r",
+							"    pm.response.to.have.status(500);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\":\"{{username}}\",\r\n\t\"password\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/login_check",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"login_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should generate token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('token', pm.response.json().token);\r",
+							"pm.test(\"Status test\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\":\"{{username}}\",\r\n\t\"password\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/login_check",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"login_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should create ingredient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('lastIngredient', pm.response.json()['id']);\r",
+							"pm.test(\"Status test\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\":\"test\",\r\n\t\"picture\":\"test\",\r\n    \"slug\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ingredients",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ingredients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should edit ingredient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Update\", function() {\r",
+							"    pm.expect(pm.response.json()['picture']).to.eql('testEdit')\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\":\"test\",\r\n\t\"picture\":\"testEdit\",\r\n    \"slug\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ingredients/{{lastIngredient}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"{{lastIngredient}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should delete ingredient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/ingredients/{{lastIngredient}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"{{lastIngredient}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
