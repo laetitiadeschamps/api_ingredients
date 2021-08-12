@@ -23,5 +23,5 @@ stages:
 Newman:
     stage: TestAPI
     script:
-        -  newman run .\postman\api_ingredients.postman_collection.json -e .\postman\api_env.postman_environment.json
+        -  newman run ./postman/api_ingredients.postman_collection.json -e ./postman/api_env.postman_environment.json
     allow_failure: false
