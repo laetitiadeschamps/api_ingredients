@@ -53,7 +53,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.environment.set('username', pm.response.json().username);\r",
+							"\r",
 							"pm.test(\"Status test\", function() {\r",
 							"    pm.response.to.have.status(500);\r",
 							"})"
@@ -75,13 +75,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/login_check",
+					"raw": "{{url}}/api/users",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
-						"login_check"
+						"users"
 					]
 				}
 			},
