@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
@@ -43,14 +44,15 @@ class Ingredient
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "read:category"})
-     * @Assert\NotBlank(message="Un slug doit être renseigné")
+     * @Groups({"read:ingredients", "read:category", "write:ingredients"})
+     * @Assert\NotBlank(message="Un slug doit être renseigné pour l'ingrédient")
      */
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="ingredients", cascade="persist")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="ingredients", cascade={"persist"})
      * @Groups({"read:ingredients", "write:ingredients"})
+     * @Valid()
      */
     private $category;
 

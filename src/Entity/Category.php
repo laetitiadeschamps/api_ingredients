@@ -32,7 +32,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
+     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories", "write:ingredients"})
      * @Assert\Length(     
      *      min = 2,
      *      minMessage = "Le nom doit faire moins de {{ limit }} caractères.")
@@ -47,7 +47,8 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
+     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories", "write:ingredients"})
+     * @Assert\NotBlank(message="Un slug doit être renseigné pour la catégorie.")
      */
     private $slug;
 
