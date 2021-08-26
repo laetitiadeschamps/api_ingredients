@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\IngredientRepository;
 use DateTime;
@@ -25,6 +26,10 @@ use Symfony\Component\Validator\Constraints\Valid;
  * @ApiFilter(SearchFilter::class, properties= {
  * "id"="exact", "name"= "partial"
  * })
+ * @ApiFilter(
+ * OrderFilter::class, properties={
+ * "id", "name"="asc"}, arguments={"orderParameterName"="order"})
+ * 
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
 class Ingredient
