@@ -35,12 +35,14 @@ class Ingredient
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:ingredients", "write:ingredients", "read:category"})
+     * @Assert\NotBlank(message="Une photo doit être renseignée.")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:ingredients", "read:category"})
+     * @Assert\NotBlank(message="Un slug doit être renseigné")
      */
     private $slug;
 
