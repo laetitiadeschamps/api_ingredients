@@ -13,7 +13,13 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
- * @ApiResource(normalizationContext={"groups"={"read:ingredients"}}, denormalizationContext={"groups"={"write:ingredients"}})
+ * @ApiResource(
+ * normalizationContext={"groups"={"read:ingredients"}}, 
+ * denormalizationContext={"groups"={"write:ingredients"}},
+ * paginationItemsPerPage= 100,
+ * paginationMaximumItemsPerPage= 100,
+ * paginationClientItemsPerPage= true
+ * )
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
 class Ingredient
