@@ -7,9 +7,11 @@ use App\Repository\IngredientRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @UniqueEntity("name", message="Ce nom est déjà utilisé")
  * @ApiResource(normalizationContext={"groups"={"read:ingredients"}}, denormalizationContext={"groups"={"write:ingredients"}})
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
