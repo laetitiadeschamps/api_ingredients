@@ -119,6 +119,12 @@ class Ingredient
      */
     private $imageFile;
 
+    /**
+     * @var string|null
+     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
+     */
+    private $imageUrl;
+
     public function __construct()
     {
         $this->created_at = new DateTime();
@@ -218,6 +224,23 @@ class Ingredient
     public function setImageFile(File $file) : Ingredient
     {
         $this->imageFile = $file;
+        return $this;
+    }
+    /**
+     * @return string|null
+     */
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $url
+     * @return Ingredient
+     */
+    public function setImageUrl(string $url) : Ingredient
+    {
+        $this->imageUrl = $url;
         return $this;
     }
    
