@@ -26,7 +26,8 @@ use Symfony\Component\Validator\Constraints\Valid;
  * "image" = {
  * "method" = "POST",
  * "path" = "/post/{id}/image",
- * "controller"="ImageController::class"
+ * "controller"="ImageController::class",
+ * "deserialize"= false
  * }
  * }
  * )
