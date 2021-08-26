@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\IngredientRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +22,9 @@ use Symfony\Component\Validator\Constraints\Valid;
  * paginationMaximumItemsPerPage= 100,
  * paginationClientItemsPerPage= true
  * )
+ * @ApiFilter(SearchFilter::class, properties= {
+ * "id"="exact", "name"= "partial"
+ * })
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
 class Ingredient
