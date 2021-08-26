@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraints\Valid;
 /**
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
  * @ApiResource(
- * normalizationContext={"groups"={"read:ingredients"}}, 
- * denormalizationContext={"groups"={"write:ingredients"}},
+ * normalizationContext={"groups"={"read:ingredients"}, "openapi_definition_name"="Liste des ingredients"}, 
+ * denormalizationContext={"groups"={"write:ingredients"}, "openapi_definition_name"="Ecriture des ingredients"},
  * paginationItemsPerPage= 100,
  * paginationMaximumItemsPerPage= 100,
  * paginationClientItemsPerPage= true
