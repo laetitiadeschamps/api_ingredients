@@ -21,23 +21,39 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
  * @Vich\Uploadable()
  * @ApiResource(
- * normalizationContext={"groups"={"read:ingredients"}, "openapi_definition_name"="Liste des ingredients"}, 
- * denormalizationContext={"groups"={"write:ingredients"}, "openapi_definition_name"="Ecriture des ingredients"},
- * paginationItemsPerPage= 100,
- * paginationMaximumItemsPerPage= 100,
- * paginationClientItemsPerPage= true,
- * itemOperations = {
- * "get",
- * "put",
- * "delete",
- * "patch",
- * "image" = {
- * "method" = "POST",
- * "path" = "/ingredients/{id}/image",
- * "controller"=ImageController::class,
- * "deserialize"= false
- * }
- * }
+    * normalizationContext={"groups"={"read:ingredients"}, "openapi_definition_name"="Liste des ingredients"}, 
+    * denormalizationContext={"groups"={"write:ingredients"}, "openapi_definition_name"="Ecriture des ingredients"},
+    * paginationItemsPerPage= 100,
+    * paginationMaximumItemsPerPage= 100,
+    * paginationClientItemsPerPage= true,
+    * itemOperations = {
+        * "get",
+        * "put",
+        * "delete",
+        * "patch",
+        * "image" = {
+                * "method" = "POST",
+                * "path" = "/ingredients/{id}/image ",
+                * "controller"=ImageController::class,
+                * "deserialize"= false,
+                * "openapi_context"= {
+                *      "summary"="Adds an image to an ingredient",
+                *      "requestBody"= {
+                *              "content"= {
+                *                  "multipart/form-data" = {
+                *                      "schema" = {
+                *                          "type" = "object", 
+                *                          "properties"= {
+                *                              "file"= {"type"="string", "format"="binary"}
+                *                          }
+                *                       }
+                *                    }
+                *                }
+                *        }
+                *  }
+        * }
+            
+    * }
  * )
  * @ApiFilter(SearchFilter::class, properties= {
  * "id"="exact", "name"= "partial"
