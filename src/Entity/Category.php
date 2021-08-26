@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, itemOperations= {
+ * "get" = {
+ * "normalization_context" = {"groups"={"read:category"}}}
+ * })
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
@@ -18,32 +22,49 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:ingredients", "read:category", "read:categories"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
      */
     private $slug;
 
     /**
      * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="category")
+     * @Groups({"read:category"})
      */
     private $ingredients;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
 
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
+        $this->created_at = new DateTime();
+        $this->updated_at = new DateTime();
     }
 
     public function getId(): ?int
@@ -113,6 +134,30 @@ class Category
                 $ingredient->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

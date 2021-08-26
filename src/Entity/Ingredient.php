@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\IngredientRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"read:ingredients"}}, denormalizationContext={"groups"={"write:ingredients"}})
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
  */
 class Ingredient
@@ -16,28 +18,49 @@ class Ingredient
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:ingredients", "read:category"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
      */
     private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="ingredients")
+     * @Groups({"read:ingredients", "write:ingredients"})
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    public function __construct()
+    {
+        $this->created_at = new DateTime();
+        $this->updated_at = new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -91,4 +114,31 @@ class Ingredient
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+   
+   
 }
