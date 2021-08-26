@@ -61,7 +61,6 @@ class Ingredient
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:ingredients", "read:category", "write:ingredients"})
-     * @Assert\NotBlank(message="Un slug doit être renseigné pour l'ingrédient")
      */
     private $slug;
 

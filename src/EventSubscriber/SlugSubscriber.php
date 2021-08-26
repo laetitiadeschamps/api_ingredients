@@ -23,18 +23,20 @@ final class SlugSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::VIEW => ['slugify', EventPriorities::POST_DESERIALIZE]
+            KernelEvents::VIEW => ['slugify', EventPriorities::PRE_WRITE]
         ];
     }
 
     public function slugify(ViewEvent $event): void
     {
+       
         $entity = $event->getControllerResult();
-
-        if (!$entity instanceof Category | !$entity instanceof Ingredient ) {
+        $method = $event ->getRequest()->getMethod();
+       
+        if (!(!$entity instanceof Category || !$entity instanceof Ingredient) || $method !== "POST" ) {
             return;
         }
-
+        
        
         $slug = $this->slugger->slug(strtolower($entity->getName()));
         $entity->setSlug($slug);
