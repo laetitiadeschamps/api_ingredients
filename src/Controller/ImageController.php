@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ingredient;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 
 class ImageController 
@@ -11,6 +12,9 @@ class ImageController
     {
         $ingredient = $request->attributes->get('data');
         $file = $request->files->get('file');
-        dd($file);
+       
+        $ingredient->setImageFile($file);
+        $ingredient->setUpdatedAt(new DateTime());
+        return $ingredient;
     }
 }

@@ -6,16 +6,20 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\ImageController;
 use App\Repository\IngredientRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Valid;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
+ * @Vich\Uploadable()
  * @ApiResource(
  * normalizationContext={"groups"={"read:ingredients"}, "openapi_definition_name"="Liste des ingredients"}, 
  * denormalizationContext={"groups"={"write:ingredients"}, "openapi_definition_name"="Ecriture des ingredients"},
@@ -23,10 +27,14 @@ use Symfony\Component\Validator\Constraints\Valid;
  * paginationMaximumItemsPerPage= 100,
  * paginationClientItemsPerPage= true,
  * itemOperations = {
+ * "get",
+ * "put",
+ * "delete",
+ * "patch",
  * "image" = {
  * "method" = "POST",
- * "path" = "/post/{id}/image",
- * "controller"="ImageController::class",
+ * "path" = "/ingredients/{id}/image",
+ * "controller"=ImageController::class,
  * "deserialize"= false
  * }
  * }
@@ -60,7 +68,7 @@ class Ingredient
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"read:ingredients", "write:ingredients", "read:category"})
      * @Assert\NotBlank(message="Une photo doit être renseignée.")
      */
@@ -89,6 +97,12 @@ class Ingredient
      */
     private $updated_at;
 
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="ingredient_image", fileNameProperty="picture")
+     */
+    private $imageFile;
+
     public function __construct()
     {
         $this->created_at = new DateTime();
@@ -113,12 +127,12 @@ class Ingredient
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPicture()
     {
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    public function setPicture($picture): self
     {
         $this->picture = $picture;
 
@@ -173,6 +187,22 @@ class Ingredient
         return $this;
     }
 
-   
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File $file
+     * @return Ingredient
+     */
+    public function setImageFile(File $file) : Ingredient
+    {
+        $this->imageFile = $file;
+        return $this;
+    }
    
 }
