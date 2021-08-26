@@ -9,7 +9,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
+ * @UniqueEntity("name", message="Ce nom est déjà utilisé")
  * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, itemOperations= {
  * "get" = {
  * "normalization_context" = {"groups"={"read:category"}}}
@@ -29,6 +33,9 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
+     * @Assert\Length(     
+     *      min = 2,
+     *      minMessage = "Le nom doit faire moins de {{ limit }} caractères.")
      */
     private $name;
 

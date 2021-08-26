@@ -28,7 +28,7 @@ class Ingredient
      * @Groups({"read:ingredients", "write:ingredients", "read:category"})
      * @Assert\Length(     
      *      min = 2,
-     *      minMessage = "Votre prénom doit faire moins de {{ limit }} caractères.")
+     *      minMessage = "Le nom doit faire moins de {{ limit }} caractères.")
      */
     private $name;
 
@@ -47,7 +47,7 @@ class Ingredient
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="ingredients")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="ingredients", cascade="persist")
      * @Groups({"read:ingredients", "write:ingredients"})
      */
     private $category;
