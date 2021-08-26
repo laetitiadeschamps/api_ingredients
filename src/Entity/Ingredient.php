@@ -7,6 +7,7 @@ use App\Repository\IngredientRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"read:ingredients"}}, denormalizationContext={"groups"={"write:ingredients"}})
@@ -25,6 +26,9 @@ class Ingredient
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read:ingredients", "write:ingredients", "read:category"})
+     * @Assert\Length(     
+     *      min = 2,
+     *      minMessage = "Votre prénom doit faire moins de {{ limit }} caractères.")
      */
     private $name;
 
@@ -36,7 +40,7 @@ class Ingredient
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
+     * @Groups({"read:ingredients", "read:category"})
      */
     private $slug;
 
@@ -60,6 +64,7 @@ class Ingredient
     {
         $this->created_at = new DateTime();
         $this->updated_at = new DateTime();
+       
     }
 
     public function getId(): ?int
