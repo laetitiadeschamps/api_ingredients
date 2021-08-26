@@ -21,7 +21,14 @@ use Symfony\Component\Validator\Constraints\Valid;
  * denormalizationContext={"groups"={"write:ingredients"}, "openapi_definition_name"="Ecriture des ingredients"},
  * paginationItemsPerPage= 100,
  * paginationMaximumItemsPerPage= 100,
- * paginationClientItemsPerPage= true
+ * paginationClientItemsPerPage= true,
+ * itemOperations = {
+ * "image" = {
+ * "method" = "POST",
+ * "path" = "/post/{id}/image",
+ * "controller"="ImageController::class"
+ * }
+ * }
  * )
  * @ApiFilter(SearchFilter::class, properties= {
  * "id"="exact", "name"= "partial"

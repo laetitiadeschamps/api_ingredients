@@ -14,7 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
- * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, itemOperations= {
+ * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, 
+ * itemOperations= {
  * "get" = {
  * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}}
  * })
