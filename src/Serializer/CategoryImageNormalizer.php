@@ -2,14 +2,14 @@
 
 namespace App\Serializer;
 
-use App\Entity\Ingredient;
+
 use App\Entity\Category;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-final class ImageNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+final class CategoryImageNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -24,25 +24,32 @@ final class ImageNormalizer implements ContextAwareNormalizerInterface, Normaliz
     /**
      * Undocumented function
      *
-     * @param Ingredient|Category $object
+     * @param Category $object
      * @param string|null $format
      * @param array $context
      * @return array|string|integer|float|boolean|\ArrayObject|null
      */
     public function normalize($object, ?string $format = null, array $context = [])
     {
+      
         $context[self::ALREADY_CALLED] = true;
 
-        $object->setImageUrl($this->storage->resolveUri($object, 'imageFile'));
+        if($object->getImageFile()) {
+            $object->setImageUrl($this->storage->resolveUri($object, 'imageFile'));
+        }
+        
 
         return $this->normalizer->normalize($object, $format, $context);
     }
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
-        if (!$data instanceof Ingredient || !$data instanceof Category || isset($context[self::ALREADY_CALLED])) {
+   
+       
+        if (!$data instanceof Category || isset($context[self::ALREADY_CALLED])) {
             return false;
         }
+        
         return true;
 
     }
