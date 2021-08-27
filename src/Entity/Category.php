@@ -11,14 +11,38 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
+ * @Vich\Uploadable()
  * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, 
  * itemOperations= {
- * "get" = {
- * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}}
- * })
+    * "get" = {
+    * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}}
+    * }
+    * "image" = {
+                    * "method" = "POST",
+                    * "path" = "/categories/{id}/image ",
+                    * "controller"=CategoryImageController::class,
+                    * "deserialize"= false,
+                    * "openapi_context"= {
+                    *      "summary"="Adds an image to a category",
+                    *      "requestBody"= {
+                    *              "content"= {
+                    *                  "multipart/form-data" = {
+                    *                      "schema" = {
+                    *                          "type" = "object", 
+                    *                          "properties"= {
+                    *                              "file"= {"type"="string", "format"="binary"}
+                    *                          }
+                    *                       }
+                    *                    }
+                    *                }
+                    *        }
+                *  }
+    * }
+ * )
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
@@ -67,6 +91,19 @@ class Category
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
+
+   /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="category_image", fileNameProperty="picture")
+     */
+    private $imageFile;
+
+    /**
+     * @var string|null
+     * @Groups({"read:ingredients", "write:ingredients", "read:category", "write:categories", "read:categories"})
+     */
+    private $imageUrl;
+
 
     public function __construct()
     {
@@ -167,6 +204,41 @@ class Category
     {
         $this->updated_at = $updated_at;
 
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File $file
+     * @return Category
+     */
+    public function setImageFile(File $file) : Category
+    {
+        $this->imageFile = $file;
+        return $this;
+    }
+    /**
+     * @return string|null
+     */
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $url
+     * @return Category
+     */
+    public function setImageUrl(string $url) : Category
+    {
+        $this->imageUrl = $url;
         return $this;
     }
 }
