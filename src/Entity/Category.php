@@ -115,6 +115,7 @@ class Category
 
     /**
      * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      * @Groups({"read:ingredients", "read:category", "read:categories"})
      */
     private $imageUrl;

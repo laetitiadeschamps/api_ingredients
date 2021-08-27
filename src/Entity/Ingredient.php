@@ -86,7 +86,6 @@ class Ingredient
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"read:ingredients", "read:category"})
-     * @Assert\NotBlank(message="Une photo doit être renseignée.")
      */
     private $picture;
 
@@ -121,6 +120,7 @@ class Ingredient
 
     /**
      * @var string|null
+     * @ORM\Column(type="string", nullable=true)
      * @Groups({"read:ingredients", "read:category"})
      */
     private $imageUrl;

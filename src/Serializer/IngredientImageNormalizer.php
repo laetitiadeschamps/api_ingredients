@@ -4,6 +4,7 @@ namespace App\Serializer;
 
 use App\Entity\Ingredient;
 use App\Entity\Category;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
@@ -15,10 +16,12 @@ final class IngredientImageNormalizer implements ContextAwareNormalizerInterface
 
     private const ALREADY_CALLED = 'MEDIA_OBJECT_NORMALIZER_ALREADY_CALLED';
     private $storage;
+    private $em;
 
-    public function __construct(StorageInterface $storageInterface)
+    public function __construct(StorageInterface $storageInterface, EntityManagerInterface $em)
     {
         $this->storage = $storageInterface;
+        $this->em = $em;
     }
 
     /**
@@ -33,8 +36,9 @@ final class IngredientImageNormalizer implements ContextAwareNormalizerInterface
     {
        
         $context[self::ALREADY_CALLED] = true;
-
+        if($object->getImageFile()) {
         $object->setImageUrl($this->storage->resolveUri($object, 'imageFile'));
+        }
 
         return $this->normalizer->normalize($object, $format, $context);
     }
