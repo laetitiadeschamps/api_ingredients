@@ -6,7 +6,7 @@ use App\Entity\Ingredient;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 
-class ImageController 
+class IngredientImageController 
 {
     public function __invoke(Request $request)
     {

@@ -34,7 +34,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         * "image" = {
                 * "method" = "POST",
                 * "path" = "/ingredients/{id}/image ",
-                * "controller"=ImageController::class,
+                * "controller"=IngredientImageController::class,
                 * "deserialize"= false,
                 * "openapi_context"= {
                 *      "summary"="Adds an image to an ingredient",
