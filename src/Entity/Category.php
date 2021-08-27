@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
+use App\Controller\CategoryImageController;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,8 +20,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, 
  * itemOperations= {
     * "get" = {
-    * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}}
-    * }
+    * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}
+    * },
     * "image" = {
                     * "method" = "POST",
                     * "path" = "/categories/{id}/image ",
@@ -35,13 +36,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                     *                          "type" = "object", 
                     *                          "properties"= {
                     *                              "file"= {"type"="string", "format"="binary"}
-                    *                          }
+                    *                           }
                     *                       }
-                    *                    }
-                    *                }
-                    *        }
-                *  }
-    * }
+                    *                       }
+                    *                  }
+                            *  }
+                    *     }
+     *  }
+*  }
+    
+ 
  * )
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */

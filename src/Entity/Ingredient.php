@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Controller\ImageController;
+use App\Controller\IngredientImageController;
 use App\Repository\IngredientRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
