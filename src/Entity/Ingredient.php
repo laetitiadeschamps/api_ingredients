@@ -37,7 +37,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                 * "controller"=IngredientImageController::class,
                 * "deserialize"= false,
                 * "openapi_context"= {
-                *      "summary"="Adds an image to an ingredient",
+                *      "summary"="Posts an image and links  it to an ingredient",
                 *      "requestBody"= {
                 *              "content"= {
                 *                  "multipart/form-data" = {
@@ -85,14 +85,14 @@ class Ingredient
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
+     * @Groups({"read:ingredients", "read:category"})
      * @Assert\NotBlank(message="Une photo doit être renseignée.")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "read:category", "write:ingredients"})
+     * @Groups({"read:ingredients", "read:category"})
      */
     private $slug;
 
@@ -121,7 +121,7 @@ class Ingredient
 
     /**
      * @var string|null
-     * @Groups({"read:ingredients", "write:ingredients", "read:category"})
+     * @Groups({"read:ingredients", "read:category"})
      */
     private $imageUrl;
 

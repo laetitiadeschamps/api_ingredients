@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Entity;
-
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
 use App\Controller\CategoryImageController;
@@ -18,17 +20,19 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @UniqueEntity("name", message="Ce nom est déjà utilisé")
  * @Vich\Uploadable()
  * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, 
+ * paginationEnabled=false,
  * itemOperations= {
     * "get" = {
     * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}
     * },
+    * "put",
     * "image" = {
                     * "method" = "POST",
                     * "path" = "/categories/{id}/image ",
                     * "controller"=CategoryImageController::class,
                     * "deserialize"= false,
                     * "openapi_context"= {
-                    *      "summary"="Adds an image to a category",
+                    *      "summary"="posts an image and links it to a category",
                     *      "requestBody"= {
                     *              "content"= {
                     *                  "multipart/form-data" = {
@@ -47,6 +51,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     
  
  * )
+ * @ApiFilter(SearchFilter::class, properties= {
+ * "id"="exact", "name"= "partial"
+ * })
+ * @ApiFilter(
+ * OrderFilter::class, properties={
+ * "id", "name"="asc"}, arguments={"orderParameterName"="order"})
+ * 
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
@@ -61,7 +72,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories", "write:ingredients"})
+     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
      * @Assert\Length(     
      *      min = 2,
      *      minMessage = "Le nom doit faire moins de {{ limit }} caractères.")
@@ -70,13 +81,13 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories"})
+     * @Groups({"read:ingredients", "read:category", "read:categories"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:ingredients", "read:category", "read:categories", "write:categories", "write:ingredients"})
+     * @Groups({"read:ingredients", "read:category", "read:categories"})
      */
     private $slug;
 
@@ -104,7 +115,7 @@ class Category
 
     /**
      * @var string|null
-     * @Groups({"read:ingredients", "write:ingredients", "read:category", "write:categories", "read:categories"})
+     * @Groups({"read:ingredients", "read:category", "read:categories"})
      */
     private $imageUrl;
 
