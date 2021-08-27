@@ -1,6 +1,8 @@
 # Laetitia Deschamps
 [![forthebadge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/laetitiadeschamps/)  [!
 
+
+EN COURS DE CONSTRUCTION
 ## Stack 
 [![forthebadge](https://img.shields.io/badge/Symfony-000000?style=for-the-badge&logo=Symfony&logoColor=white)](http://forthebadge.com)
 [![forthebadge](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](http://forthebadge.com)
@@ -40,8 +42,7 @@ Pagination: pas de pagination
 - DELETE : /api/categories/{id} : permet la suppression d'une catégorie. 
 - POST : /api/categories/{id}/image : permet l'upload d'une image et son association avec la catégorie demandée. Renvoie l'objet créé, avec le chemin vers l'image et son IRI.
 
-
-
+Ce projet est en cours de construction, il reste à sécuriser les routes, et à peupler ma base de données
 
 
 
