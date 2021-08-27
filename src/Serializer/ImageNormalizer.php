@@ -3,6 +3,7 @@
 namespace App\Serializer;
 
 use App\Entity\Ingredient;
+use App\Entity\Category;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
@@ -23,7 +24,7 @@ final class ImageNormalizer implements ContextAwareNormalizerInterface, Normaliz
     /**
      * Undocumented function
      *
-     * @param Ingredient $object
+     * @param Ingredient|Category $object
      * @param string|null $format
      * @param array $context
      * @return array|string|integer|float|boolean|\ArrayObject|null
@@ -39,7 +40,7 @@ final class ImageNormalizer implements ContextAwareNormalizerInterface, Normaliz
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
-        if (!$data instanceof Ingredient || isset($context[self::ALREADY_CALLED])) {
+        if (!$data instanceof Ingredient || !$data instanceof Category || isset($context[self::ALREADY_CALLED])) {
             return false;
         }
         return true;
