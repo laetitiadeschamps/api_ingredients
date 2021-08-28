@@ -21,13 +21,18 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable()
  * @ApiResource(normalizationContext={"groups"={"read:categories"}}, denormalizationContext={"groups"={"write:categories"}}, 
  * paginationEnabled=false,
+ * collectionOperations = {
+ * "post" = {"security"="is_granted('ROLE_ADMIN')"},
+ * },
  * itemOperations= {
     * "get" = {
     * "normalization_context" = {"groups"={"read:category"}, "openapi_definition_name"="Details"}
     * },
-    * "put",
+    * "delete"={"security"="is_granted('ROLE_ADMIN')"},
+    * "put"= {"security"="is_granted('ROLE_ADMIN')"},
     * "image" = {
                     * "method" = "POST",
+                    * "security"="is_granted('ROLE_ADMIN')",
                     * "path" = "/categories/{id}/image ",
                     * "controller"=CategoryImageController::class,
                     * "deserialize"= false,

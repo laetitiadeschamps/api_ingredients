@@ -33,7 +33,7 @@ final class SlugSubscriber implements EventSubscriberInterface
         $entity = $event->getControllerResult();
         $method = $event ->getRequest()->getMethod();
        
-        if (!(!$entity instanceof Category || !$entity instanceof Ingredient) || $method !== "POST" ) {
+        if (!($entity instanceof Category || $entity instanceof Ingredient) || $method !== "POST" ) {
             return;
         }
         
