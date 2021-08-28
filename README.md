@@ -42,7 +42,10 @@ Pagination: pas de pagination
 - DELETE : /api/categories/{id} : permet la suppression d'une catégorie. 
 - POST : /api/categories/{id}/image : permet l'upload d'une image et son association avec la catégorie demandée. Renvoie l'objet créé, avec le chemin vers l'image et son IRI.
 
-Ce projet est en cours de construction, il reste à sécuriser les routes, et à peupler ma base de données
+## Sécurité
+Les routes de création / édition / supression sont réservées aux utilisateurs ayant le role ADMIN, excepté la création d'utilisateur qui est évidemment publique.
+
+Ce projet est en cours de construction, il reste à peupler ma base de données, et à gérer le problème d'encodage des accents. 
 
 
 
