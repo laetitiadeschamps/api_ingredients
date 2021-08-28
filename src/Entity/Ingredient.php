@@ -26,13 +26,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     * paginationItemsPerPage= 100,
     * paginationMaximumItemsPerPage= 100,
     * paginationClientItemsPerPage= true,
+    * collectionOperations= {
+    * "post" = {"security"="is_granted('ROLE_ADMIN')"},   
+    * },
     * itemOperations = {
         * "get",
-        * "put",
-        * "delete",
-        * "patch",
+        * "put"={"security"="is_granted('ROLE_ADMIN')"},
+        * "delete"={"security"="is_granted('ROLE_ADMIN')"},
         * "image" = {
                 * "method" = "POST",
+                * "security"="is_granted('ROLE_ADMIN')",
                 * "path" = "/ingredients/{id}/image ",
                 * "controller"=IngredientImageController::class,
                 * "deserialize"= false,
